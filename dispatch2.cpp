@@ -116,6 +116,31 @@ public:
         return officersNeeded;
     }
 
+    // Function to dispatch squad cars based on severity
+    void dispatchSquadCars(int severity) const {
+        std::cout << "Police Department in District " << districtID << " dispatches: ";
+
+        switch (severity) {
+            case 1:
+                std::cout << "1 Squad Car." << std::endl;
+                break;
+            case 2:
+                std::cout << "2 Squad Cars." << std::endl;
+                break;
+            case 3:
+                std::cout << "4 Squad Cars." << std::endl;
+                break;
+            case 4:
+                std::cout << "8 Squad Cars." << std::endl;
+                break;
+            case 5:
+                std::cout << "All available squad cars (" << personnelCount << " squad cars)." << std::endl;
+                break;
+            default:
+                std::cout << "Invalid severity level!" << std::endl;
+        }
+    }
+
     // Function to calculate distance from a district
     int distanceFrom(int districtNumber) const {
         return std::abs(districtID - districtNumber);  // Absolute difference
@@ -223,7 +248,7 @@ int askForSeverity() {
         if (std::cin.fail() || severity < 1 || severity > 5) {
             std::cin.clear(); // clear error flag
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
-            std::cout << "Invalid severity! Please enter a number between 1 and 5: ";
+            std::cout << "Invalid severity level! Please enter a number between 1 and 5: ";
         } else {
             break;
         }
@@ -291,6 +316,7 @@ void assignPersonnel(Map& map, EmergencyType emergency, int severity, int distri
             int officersDispatched = nearestPoliceDepartment->assignOfficers(severity);
             std::cout << "Police Department in District " << nearestPoliceDepartment->districtID
                       << " dispatched " << officersDispatched << " officers to District " << districtNumber << "." << std::endl;
+            nearestPoliceDepartment->dispatchSquadCars(severity);  // Dispatch squad cars based on severity
         }
     } else if (emergency == MEDICAL) {
         // Hospital dispatch
