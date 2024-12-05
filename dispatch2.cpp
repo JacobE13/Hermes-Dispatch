@@ -11,6 +11,14 @@ enum EmergencyType {
     INVALID = -1
 };
 
+// Enum for different types of fire vehicles
+enum FireVehicleType {
+    WATER_TRUCK = 1,
+    LADDER_TRUCK = 2,
+    RESCUE_TRUCK = 3
+};
+
+// Class representing a district
 class District {
 public:
     int districtID;
@@ -36,9 +44,41 @@ public:
                   << " with " << personnelCount << " firefighters." << std::endl;
     }
 
-    // Function to dispatch fire personnel
-    int dispatchFirefighters() const {
-        return personnelCount;  // Fire department always sends 30 firefighters
+    // Function to dispatch fire vehicles based on severity
+    void dispatchFireVehicles(int severity) const {
+        std::cout << "Fire Department in District " << districtID << " dispatches: ";
+        
+        switch (severity) {
+            case 1:
+                std::cout << "1 Water Truck." << std::endl;
+                break;
+            case 2:
+                std::cout << "2 Water Trucks." << std::endl;
+                break;
+            case 3:
+                std::cout << "1 Ladder Truck, 1 Water Truck." << std::endl;
+                break;
+            case 4:
+                std::cout << "2 Ladder Trucks, 1 Water Truck." << std::endl;
+                break;
+            case 5:
+                std::cout << "2 Ladder Trucks, 2 Water Trucks, 1 Rescue Truck." << std::endl;
+                break;
+            default:
+                std::cout << "Invalid severity level!" << std::endl;
+        }
+    }
+
+    // Function to dispatch firefighters based on severity
+    int dispatchFirefighters(int severity) const {
+        switch (severity) {
+            case 1: return 5; // Minor fire requires fewer firefighters
+            case 2: return 10; // Slightly larger fire requires more firefighters
+            case 3: return 15; // Moderate fire requires more firefighters
+            case 4: return 20; // Serious fire requires even more firefighters
+            case 5: return personnelCount; // Major fire requires all firefighters
+            default: return 0; // Invalid severity level
+        }
     }
 
     // Function to calculate distance from a district
@@ -94,7 +134,7 @@ public:
 
     // For simplicity, we'll assume hospitals always send 1 EMT for a medical emergency.
     int assignEMTs() const {
-        return 2; // Simplified assumption that 1 EMT is sent for a medical emergency
+        return 1; // Simplified assumption that 1 EMT is sent for a medical emergency
     }
 
     // Function to calculate distance from a district
@@ -196,7 +236,7 @@ int askForSeverity() {
 int askForDistrict() {
     int districtNumber;
     std::cout << "Enter the district number (1 to 10) where the emergency occurred: ";
-
+    
     while (true) {
         std::cin >> districtNumber;
 
@@ -213,51 +253,50 @@ int askForDistrict() {
     return districtNumber;
 }
 
-// Function to find the closest department (fire, police, or hospital) based on district
-template<typename T>
-T* findClosestDepartment(const std::vector<T>& departments, int districtNumber) {
-    int minDistance = std::numeric_limits<int>::max();
-    T* closestDept = nullptr;
-
-    for (const auto& dept : departments) {
-        int distance = dept.distanceFrom(districtNumber);
-        if (distance < minDistance) {
-            minDistance = distance;
-            closestDept = const_cast<T*>(&dept); // Get a non-const pointer to the department
-        }
-    }
-
-    return closestDept;
-}
-
-// Function to assign and display the number of personnel based on the emergency type and severity
+// Function to assign personnel based on the emergency type, severity, and district
 void assignPersonnel(Map& map, EmergencyType emergency, int severity, int districtNumber) {
-    int personnelDispatched = 0;
-    std::string departmentType = "";
+    if (emergency == FIRE) {
+        // Fire department dispatch
+        FireDepartment* nearestFireDepartment = nullptr;
+        int minDistance = std::numeric_limits<int>::max();
 
-    if (emergency == POLICE) {
-        // Find the closest police department to the emergency district
-        PoliceDepartment* closestPD = findClosestDepartment(map.policeDepartments, districtNumber);
-        if (closestPD) {
-            personnelDispatched = closestPD->assignOfficers(severity);
-            departmentType = "Police Department";
+        // Find the nearest fire department
+        for (auto& fireDept : map.fireDepartments) {
+            int distance = fireDept.distanceFrom(districtNumber);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestFireDepartment = &fireDept;
+            }
         }
-    } else if (emergency == FIRE) {
-        // Find the closest fire department to the emergency district
-        FireDepartment* closestFD = findClosestDepartment(map.fireDepartments, districtNumber);
-        if (closestFD) {
-            personnelDispatched = closestFD->dispatchFirefighters();
-            departmentType = "Fire Department";
+
+        if (nearestFireDepartment) {
+            nearestFireDepartment->dispatchFirefighters(severity);
+            nearestFireDepartment->dispatchFireVehicles(severity);
+        }
+    } else if (emergency == POLICE) {
+        // Police department dispatch
+        PoliceDepartment* nearestPoliceDepartment = nullptr;
+        int minDistance = std::numeric_limits<int>::max();
+
+        // Find the nearest police department
+        for (auto& policeDept : map.policeDepartments) {
+            int distance = policeDept.distanceFrom(districtNumber);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestPoliceDepartment = &policeDept;
+            }
+        }
+
+        if (nearestPoliceDepartment) {
+            int officersDispatched = nearestPoliceDepartment->assignOfficers(severity);
+            std::cout << "Police Department in District " << nearestPoliceDepartment->districtID
+                      << " dispatched " << officersDispatched << " officers to District " << districtNumber << "." << std::endl;
         }
     } else if (emergency == MEDICAL) {
-        // Find the hospital (we assume hospital is at district 0 for simplicity)
-        personnelDispatched = map.hospital.assignEMTs();
-        departmentType = "Hospital";
+        // Hospital dispatch
+        int emtsDispatched = map.hospital.assignEMTs();
+        std::cout << "Hospital dispatched " << emtsDispatched << " EMT to District " << districtNumber << "." << std::endl;
     }
-
-    // Output the dispatch information
-    std::cout << departmentType << " dispatched " << personnelDispatched
-              << " personnel to District " << districtNumber << "." << std::endl;
 }
 
 int main() {
