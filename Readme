@@ -1,6 +1,6 @@
 
 
-The following commands are typed into the terminal to build and run through CMake:
+The following commands are typed into the terminal to build and run through CMake, which you need to have installed:
 
 cd ..
 rm -rf build
