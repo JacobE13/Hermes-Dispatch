@@ -1,4 +1,11 @@
-Alow integration of different emergeny responders to an emergency i.e. a fire needs the fire department and police to block off roads
-code recognizes how many first reponders are missing from department
-finite state machine?
-fake scenerio machine that will show the use of the finite machine
+
+
+The following commands are typed into the terminal to build and run through CMake:
+
+cd ..
+rm -rf build
+mkdir build
+cd build
+cmake ..
+cmake --build .
+./dispatch2
