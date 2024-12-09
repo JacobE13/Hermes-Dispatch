@@ -28,16 +28,16 @@ public:
     Hospital hospital;
 
     void initializeDepartments() {
-        // Add Fire Departments
-        fireDepartments.emplace_back(1, 30);
+        // fire departments -- 30 first responders in districts 1 and 5
+        fireDepartments.emplace_back(1, 30);   
         fireDepartments.emplace_back(5, 30);
 
-        // Add Police Departments
+        // police departments -- 30 first responders in districts 2 and 6
         policeDepartments.emplace_back(2, 30);
         policeDepartments.emplace_back(6, 30);
 
         // Add Hospital
-        hospital = Hospital(50);
+        hospital = Hospital(30);
     }
 
     void displayStatus() const {
@@ -120,7 +120,7 @@ void handleEmergency(Map& map, EmergencyType type, int severity, int district) {
                 }
             }
             if (nearestFireDept) {
-                nearestFireDept->dispatchResources(severity * 5, severity);
+                nearestFireDept->dispatchResources(severity * 5, severity); // # of firefighters dispatched determined by severity*5
             }
             break;
         }
@@ -139,7 +139,7 @@ void handleEmergency(Map& map, EmergencyType type, int severity, int district) {
                 }
             }
             if (nearestPoliceDept) {
-                nearestPoliceDept->dispatch(severity * 2, severity);
+                nearestPoliceDept->dispatch(severity * 2, severity); // # of police officers dispatched determined by severity*2
             }
             break;
         }
