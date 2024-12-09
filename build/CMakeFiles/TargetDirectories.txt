@@ -1,0 +1,3 @@
+/Users/kseniakirsanova/Desktop/AERSP424Project/Hermes-Dispatch/build/CMakeFiles/dispatch2.dir
+/Users/kseniakirsanova/Desktop/AERSP424Project/Hermes-Dispatch/build/CMakeFiles/edit_cache.dir
+/Users/kseniakirsanova/Desktop/AERSP424Project/Hermes-Dispatch/build/CMakeFiles/rebuild_cache.dir
