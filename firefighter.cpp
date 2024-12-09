@@ -2,7 +2,7 @@
 
 // Constructor
 FireDepartment::FireDepartment(int districtID, int personnelCount)
-    : districtID(districtID), personnelCount(personnelCount), availableFirefighters(personnelCount), availableVehicles(3) {}
+    : districtID(districtID), personnelCount(personnelCount), availableFirefighters(personnelCount), availableVehicles(4) {}
 
 // Dispatch resources
 void FireDepartment::dispatchResources(int requiredFirefighters, int requiredVehicles) {

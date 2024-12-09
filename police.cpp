@@ -2,7 +2,7 @@
 
 // Constructor
 PoliceDepartment::PoliceDepartment(int districtID, int personnelCount)
-    : districtID(districtID), personnelCount(personnelCount), availableOfficers(personnelCount), availableVehicles(5) {}
+    : districtID(districtID), personnelCount(personnelCount), availableOfficers(personnelCount), availableVehicles(15) {}
 
 // Dispatch resources
 void PoliceDepartment::dispatch(int requiredOfficers, int requiredVehicles) {
