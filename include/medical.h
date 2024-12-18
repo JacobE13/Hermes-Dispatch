@@ -8,7 +8,7 @@ public:
     int personnelCount;
     int availableEMTs;
 
-    Hospital(int personnelCount = 20);
+    Hospital(int personnelCount = 30);
 
     void dispatch(int severity);
     void display() const;

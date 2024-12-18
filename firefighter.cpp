@@ -1,10 +1,10 @@
 #include "firefighter.h"
 
-// Constructor
+// cnstructor
 FireDepartment::FireDepartment(int districtID, int personnelCount)
     : districtID(districtID), personnelCount(personnelCount), availableFirefighters(personnelCount), availableVehicles(4) {}
 
-// Dispatch resources
+// dispatch resources
 void FireDepartment::dispatchResources(int requiredFirefighters, int requiredVehicles) {
     if (availableFirefighters >= requiredFirefighters && availableVehicles >= requiredVehicles) {
         availableFirefighters -= requiredFirefighters;
@@ -17,7 +17,7 @@ void FireDepartment::dispatchResources(int requiredFirefighters, int requiredVeh
     }
 }
 
-// Return resources
+// return resources
 void FireDepartment::returnResources(int firefighters, int vehicles) {
     availableFirefighters += firefighters;
     availableVehicles += vehicles;
@@ -26,14 +26,14 @@ void FireDepartment::returnResources(int firefighters, int vehicles) {
               << vehicles << " vehicles." << std::endl;
 }
 
-// Display current status
+// display current status
 void FireDepartment::displayStatus() const {
     std::cout << "Fire Department in District " << districtID
               << " has " << availableFirefighters << " firefighters and "
               << availableVehicles << " vehicles available." << std::endl;
 }
 
-// Calculate distance from a given district
+// calculate distance from given district
 int FireDepartment::distanceFrom(int districtNumber) const {
     return std::abs(districtID - districtNumber);
 }

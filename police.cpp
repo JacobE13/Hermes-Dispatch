@@ -1,10 +1,10 @@
 #include "police.h"
 
-// Constructor
+// constructor
 PoliceDepartment::PoliceDepartment(int districtID, int personnelCount)
     : districtID(districtID), personnelCount(personnelCount), availableOfficers(personnelCount), availableVehicles(15) {}
 
-// Dispatch resources
+// dispatch resources
 void PoliceDepartment::dispatch(int requiredOfficers, int requiredVehicles) {
     if (availableOfficers >= requiredOfficers && availableVehicles >= requiredVehicles) {
         availableOfficers -= requiredOfficers;
@@ -17,14 +17,14 @@ void PoliceDepartment::dispatch(int requiredOfficers, int requiredVehicles) {
     }
 }
 
-// Display status
+// display status
 void PoliceDepartment::displayStatus() const {
     std::cout << "Police Department in District " << districtID
               << " has " << availableOfficers << " officers and "
               << availableVehicles << " vehicles available." << std::endl;
 }
 
-// Calculate distance
+// calculate distance b/w districts
 int PoliceDepartment::distanceFrom(int districtNumber) const {
     return std::abs(districtID - districtNumber);
 }

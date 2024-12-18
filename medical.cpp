@@ -1,9 +1,9 @@
 #include "medical.h"
 
-// Constructor
+// constructor
 Hospital::Hospital(int personnelCount) : personnelCount(personnelCount), availableEMTs(personnelCount) {}
 
-// Dispatch EMTs based on severity
+// dispatch EMTs 
 void Hospital::dispatch(int severity) {
     if (availableEMTs >= severity) {
         availableEMTs -= severity;
@@ -13,7 +13,7 @@ void Hospital::dispatch(int severity) {
     }
 }
 
-// Display hospital status
+// display hospital status
 void Hospital::display() const {
     std::cout << "Hospital has " << availableEMTs << " EMT(s) available." << std::endl;
 }
